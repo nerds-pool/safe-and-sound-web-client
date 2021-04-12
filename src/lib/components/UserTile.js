@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const UserTile = ({ data }) => {
   const classes = useStyles();
-  const history = useHistory();
-
-  console.log("History:", history);
+  const history = useHistory(); 
 
   const handleTraceAccociates = (id) => {
     history.push(`/users/associates/${id}`);

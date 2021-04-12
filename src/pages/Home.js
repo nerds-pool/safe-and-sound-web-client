@@ -1,19 +1,20 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalStyles } from "../lib/theme";
-import { Header, UserTile } from "../lib/components";
+import { Header, UserTile, HpbInfoBox } from "../lib/components";
+import { hpb } from "../api";
 import USERS from "../data/users";
 
 const useStyles = makeStyles((theme) => ({
   upperSection: {
-    backgroundColor: "#dfc",
-    height: "30vh",
-    width: "100vw",
+    marginTop: theme.spacing(5),
+    width: "90vw",
+    paddingLeft: 50,
   },
   mainSection: {
     width: "90vw",
-    paddingTop: 20,
+    marginTop: theme.spacing(10),
     paddingLeft: 50,
   },
   gridWrapper: {
@@ -25,6 +26,8 @@ const Home = () => {
   const classes = useStyles();
   const styles = useGlobalStyles();
 
+  const [hpbData, setHpbData] = useState({});
+
   const renderUserTiles = (data) =>
     data.map((item) => (
       <Grid item xs={4}>
@@ -32,13 +35,26 @@ const Home = () => {
       </Grid>
     ));
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await hpb.get.data();
+        if (!response.data.success)
+          throw new Error("Can't fetch data from hpb api");
+        setHpbData((prevState) => ({ ...prevState, ...response.data.data }));
+      } catch (error) {
+        console.log("Error happened while getting covid data", error.response);
+      }
+    })();
+  }, []);
+
   return (
     <Fragment>
       <Header />
-      <Container component="main" maxWidth="xs" className={styles.page}>
-        {/* <Box className={classes.upperSection}>
-          <Paper></Paper>
-        </Box> */}
+      <Container component="main" maxWidth="sm" className={styles.page}>
+        <Box className={classes.upperSection}>
+          <HpbInfoBox data={hpbData} />
+        </Box>
         <Box className={classes.mainSection}>
           <Typography variant="h5">COVID-19 Positive Users</Typography>
           <Box className={classes.gridWrapper}>
