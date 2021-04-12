@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UserTile = ({ data }) => {
+export const AssociateTile = ({ data }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -77,13 +77,6 @@ export const UserTile = ({ data }) => {
           </TableRow>
         </TableBody>
       </Table>
-      <Button
-        variant="contained"
-        className={classes.button}
-        onClick={() => handleTraceAccociates(data.id)}
-      >
-        Trace Associates
-      </Button>
     </Paper>
   );
 };

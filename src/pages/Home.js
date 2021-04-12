@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useGlobalStyles, Colors } from "../lib/theme";
+import { useGlobalStyles } from "../lib/theme";
 import { Header, UserTile } from "../lib/components";
 import USERS from "../data/users";
 
@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 50,
   },
   gridWrapper: {
-    marginTop: theme.spacing(5)
-  }
+    marginTop: theme.spacing(5),
+  },
 }));
 
 const Home = () => {

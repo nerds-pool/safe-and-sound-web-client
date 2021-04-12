@@ -18,16 +18,16 @@ const useStyles = makeStyles((theme) => ({
 const FourZeroFour = () => {
   const classes = useStyles();
   return (
-    <Container component="main" maxWidth="xs" >
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box className={classes.paper}>
-      <Typography variant="h2" component="h1">
-        Page not found :({" "}
-      </Typography>
-      <Typography variant="body1" component="p" className={classes.text}>
-        Maybe the page you are looking for has been removed, or you typed in the
-        wrong URL
-      </Typography>
+        <Typography variant="h2" component="h1">
+          {"Page not found :("}
+        </Typography>
+        <Typography variant="body1" component="p" className={classes.text}>
+          Maybe the page you are looking for has been removed, or you typed in
+          the wrong URL
+        </Typography>
       </Box>
     </Container>
   );
