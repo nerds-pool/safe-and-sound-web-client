@@ -8,7 +8,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Button,
 } from "@material-ui/core";
 import { Colors } from "../theme";
 
@@ -30,9 +29,9 @@ export const AssociateTile = ({ data }) => {
 
   console.log("History:", history);
 
-  const handleTraceAccociates = (id) => {
-    history.push(`/users/associates/${id}`);
-  };
+  // const handleTraceAccociates = (id) => {
+  //   history.push(`/users/associates/${id}`);
+  // };
 
   return (
     <Paper className={classes.paper} elevation={3}>

@@ -16,8 +16,24 @@ import USERS from "../data/users";
 
 const useStyles = makeStyles((theme) => ({
   upperSection: {
-    height: "30vh",
-    width: "90vw",
+    height: "20vh",
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchBox: {
+    display: "flex",
+    alignItems: "center",
+    width: "60%",
+  },
+  input: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+    marginRight: theme.spacing(2),
   },
   mainSection: {
     width: "90vw",
@@ -45,8 +61,11 @@ const Explore = () => {
       <Header />
       <Container component="main" maxWidth="xs" className={styles.page}>
         <Box className={classes.upperSection}>
-          <Paper>
-            <InputBase placeholder="Enter NIC to explore users" />
+          <Paper component="form" className={classes.searchBox}>
+            <InputBase
+              className={classes.input}
+              placeholder="Enter NIC to explore users"
+            />
             <IconButton
               type="submit"
               className={classes.iconButton}
