@@ -1,0 +1,58 @@
+const users = [
+  {
+    id: "19991130221",
+    email: "kaveen@mail.com",
+    contact: "0731234567",
+    profession: "Software Engineer",
+    gender: "male",
+    city: "Homagama",
+    name: "Kaveen De Alwis",
+  },
+  {
+    id: "19991130222",
+    email: "kavindaa@mail.com",
+    contact: "0731234568",
+    profession: "Software Engineer",
+    gender: "male",
+    city: "Hoamgama",
+    name: "Kavinda Thennakoon",
+  },
+  {
+    id: "20006130221",
+    email: "shameera@mail.com",
+    contact: "0731234537",
+    profession: "Software Engineer",
+    gender: "female",
+    city: "Meegoda",
+    name: "Shameera Carrim",
+  },
+  {
+    id: "19981130221",
+    email: "suchith@mail.com",
+    contact: "0731264567",
+    profession: "Software Engineer",
+    gender: "male",
+    city: "Moratuwa",
+    name: "Suchith Fernando",
+  },
+  {
+    id: "19971130221",
+    email: "tharusha@mail.com",
+    contact: "0735234567",
+    profession: "Software Engineer",
+    gender: "male",
+    city: "Meegoda",
+    name: "Tharusha Kudagala",
+  },
+  {
+    id: "19971130221",
+    email: "yashen@mail.com",
+    contact: "0731238567",
+    profession: "Software Engineer",
+    gender: "male",
+    city: "Kottawa",
+    name: "Yashen Samarasinghe",
+  },
+];
+
+export default users;
