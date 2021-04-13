@@ -51,7 +51,7 @@ const Explore = () => {
 
   const renderUserTiles = (data) =>
     data.map((item) => (
-      <Grid item xs={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <UserTile data={item}></UserTile>
       </Grid>
     ));

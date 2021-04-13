@@ -28,7 +28,7 @@ const Associates = () => {
 
   const renderAssociatesTiles = (data) =>
     data.map((item) => (
-      <Grid item xs={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <AssociateTile data={item}></AssociateTile>
       </Grid>
     ));

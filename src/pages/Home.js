@@ -9,8 +9,8 @@ import USERS from "../data/users";
 const useStyles = makeStyles((theme) => ({
   upperSection: {
     marginTop: theme.spacing(5),
-    width: "90vw",
-    paddingLeft: 50,
+    width: "98vw",
+    // paddingLeft: 50,
   },
   mainSection: {
     width: "90vw",
@@ -30,7 +30,7 @@ const Home = () => {
 
   const renderUserTiles = (data) =>
     data.map((item) => (
-      <Grid item xs={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <UserTile data={item}></UserTile>
       </Grid>
     ));
