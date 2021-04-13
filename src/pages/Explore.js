@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import {
   Container,
   Box,
@@ -8,11 +8,13 @@ import {
   InputBase,
   IconButton,
 } from "@material-ui/core";
-import { Search } from "@material-ui/icons";
+import { Clear } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalStyles } from "../lib/theme";
 import { Header, UserTile } from "../lib/components";
 import USERS from "../data/users";
+
+const STRICT_NUM_REGEX = new RegExp(/^[0-9]*$/);
 
 const useStyles = makeStyles((theme) => ({
   upperSection: {
@@ -49,12 +51,43 @@ const Explore = () => {
   const classes = useStyles();
   const styles = useGlobalStyles();
 
+  const [searchStr, setSearchStr] = useState("");
+  const [searchRes, setSearchRes] = useState([]);
+
+  const fetchUsers = useCallback(async () => {
+    try {
+      if (!searchStr || !STRICT_NUM_REGEX.test(searchStr)) return;
+      const usersArray = USERS.filter((user) =>
+        user.id.toString().includes(searchStr)
+      );
+      setSearchRes([...usersArray]);
+      return "got results";
+    } catch (error) {
+      console.log(error);
+    }
+  }, [searchStr]);
+
   const renderUserTiles = (data) =>
     data.map((item) => (
       <Grid item xs={12} sm={6} md={4}>
         <UserTile data={item}></UserTile>
       </Grid>
     ));
+
+  const handleChange = async (e) => {
+    const value = e.target.value;
+    setSearchStr(value);
+  };
+
+  const handleClear = (e) => {
+    e.preventDefault();
+    setSearchStr("");
+    setSearchRes([]);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   return (
     <Fragment>
@@ -65,21 +98,30 @@ const Explore = () => {
             <InputBase
               className={classes.input}
               placeholder="Enter NIC to explore users"
+              value={searchStr}
+              onChange={handleChange}
             />
             <IconButton
               type="submit"
               className={classes.iconButton}
               aria-label="search"
+              onClick={handleClear}
             >
-              <Search />
+              <Clear />
             </IconButton>
           </Paper>
         </Box>
         <Box className={classes.mainSection}>
-          <Typography variant="h5">Search Results</Typography>
+          <Typography variant="h5">
+            {searchStr === ""
+              ? "Search Results will display here"
+              : STRICT_NUM_REGEX.test(searchStr) === true
+              ? `Search Results for ${searchStr}`
+              : "Please Enter a Valid NIC Number"}
+          </Typography>
           <Box className={classes.gridWrapper}>
             <Grid container spacing={3}>
-              {renderUserTiles(USERS)}
+              {renderUserTiles(searchRes)}
             </Grid>
           </Box>
         </Box>

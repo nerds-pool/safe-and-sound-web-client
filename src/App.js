@@ -16,7 +16,7 @@ import {
 import { PrivateRoute } from "./lib/components";
 
 const App = () => {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   return (
     <Router>
       <div>
