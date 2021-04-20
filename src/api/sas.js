@@ -8,7 +8,9 @@ export const sas = {
   post: {
     signin: (body) => http.post("/auth/signin", body),
   },
-  get: {},
+  get: {
+    associates: (userId) => http.get(`/visit/${userId}`),
+  },
   put: {},
   delete: {},
 };

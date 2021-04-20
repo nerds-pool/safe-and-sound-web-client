@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,9 +16,16 @@ import {
   PrintPage,
 } from "./pages";
 import { PrivateRoute } from "./lib/components";
+import { GlobalContext } from "./context";
 
 const App = () => {
-  const isAuthenticated = true;
+  const [auth, setAuth] = useState(false);
+  const { userState } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (userState.auth === true) setAuth(true);
+  }, [userState]);
+
   return (
     <Router>
       <div>
@@ -29,17 +36,17 @@ const App = () => {
           <Route path="/new" exact>
             <NewLocation />
           </Route>
-          <Route path="/qr" exact>
+          <Route path="/print" exact>
             <PrintPage />
           </Route>
           <Route path="/signin" exact component={SignInPage} />
-          <PrivateRoute auth={isAuthenticated} path="/home" exact>
+          <PrivateRoute auth={auth} path="/home" exact>
             <HomePage />
           </PrivateRoute>
-          <PrivateRoute auth={isAuthenticated} path="/users/explore" exact>
+          <PrivateRoute auth={auth} path="/users/explore" exact>
             <ExplorePage />
           </PrivateRoute>
-          <PrivateRoute auth={isAuthenticated} path="/users/associates/:id">
+          <PrivateRoute auth={auth} path="/users/associates/:id">
             <AssociatesPage />
           </PrivateRoute>
           <Route path="*" exact component={FourZeroFour} />

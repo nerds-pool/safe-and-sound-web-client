@@ -8,10 +8,12 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import { LockOutlined, LocationCity } from "@material-ui/icons";
+import { LocationCity } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { Colors } from "../lib/theme";
+
+const FORM_UPDATE = "FORM_UPDATE";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,8 +43,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case FORM_UPDATE:
+      return {
+        ...state,
+        [action.payload[0]]: action.payload[1],
+      };
+    default:
+      return state;
+  }
+};
+
 const NewLocation = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    name: "",
+    address: "",
+    city: "",
+    district: "",
+    contact: "",
+    email: "",
+  });
+
+  const [errMsg, setErrMsg] = useState(null);
+
+  const handleInput = (e) => {
+    dispatchFormState({
+      type: FORM_UPDATE,
+      payload: [e.target.id, e.target.value],
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log("User inputs", formState);
+    history.push("/print");
+  };
+
   return (
     <Container component="main" maxWidth="md">
       <CssBaseline />
@@ -54,15 +94,18 @@ const NewLocation = () => {
           Add New Location
         </Typography>
         <form className={classes.form} noValidate>
+          <Typography color="error">{errMsg}</Typography>
           <TextField
             variant="outlined"
             margin="dense"
             required
             fullWidth
-            id="Name"
+            id="name"
             label="Location Name"
             name="Name"
             autoFocus
+            value={formState.name}
+            onChange={handleInput}
           />
           <TextField
             variant="outlined"
@@ -73,6 +116,8 @@ const NewLocation = () => {
             label="Address"
             name="address"
             autoFocus
+            value={formState.address}
+            onChange={handleInput}
           />
           <TextField
             variant="outlined"
@@ -83,6 +128,8 @@ const NewLocation = () => {
             label="City"
             name="city"
             autoFocus
+            value={formState.city}
+            onChange={handleInput}
           />
           <TextField
             variant="outlined"
@@ -93,6 +140,8 @@ const NewLocation = () => {
             label="District"
             name="district"
             autoFocus
+            value={formState.district}
+            onChange={handleInput}
           />
           <TextField
             variant="outlined"
@@ -103,6 +152,8 @@ const NewLocation = () => {
             label="Contact"
             name="contact"
             autoFocus
+            value={formState.contact}
+            onChange={handleInput}
           />
           <TextField
             variant="outlined"
@@ -112,21 +163,22 @@ const NewLocation = () => {
             name="email"
             label="Email"
             id="email"
+            value={formState.email}
+            onChange={handleInput}
           />
-          {/* <Typography color="error">{errMsg}</Typography> */}
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={() => {}}
+            onClick={handleSubmit}
           >
             Submit
           </Button>
         </form>
       </Box>
-      <Box mt={5}>{/* <Copyright /> */}</Box>
     </Container>
   );
 };

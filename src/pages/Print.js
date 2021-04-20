@@ -1,24 +1,20 @@
 import React, { useRef } from "react";
 import QRCode from "qrcode.react";
 import {
-  Avatar,
   Button,
   CssBaseline,
-  TextField,
   Box,
   Typography,
   Container,
 } from "@material-ui/core";
-import { LockOutlined, LocationCity } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
 import { Colors } from "../lib/theme";
 import { useReactToPrint } from "react-to-print";
 
 const useStyles = makeStyles((theme) => ({
   page: {
     display: "flex",
-    width: "100vw"
+    width: "100vw",
   },
   paper: {
     marginTop: theme.spacing(4),

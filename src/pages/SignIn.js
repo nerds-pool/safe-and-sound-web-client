@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useContext } from "react";
 import {
   Avatar,
   Button,
@@ -12,6 +12,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { Colors } from "../lib/theme";
+import { sas } from "../api";
+import { setAuth, setUser, setTokens } from "../context/actions";
+import { GlobalContext } from "../context";
 
 const FORM_UPDATE = "FORM_UPDATE";
 
@@ -66,6 +69,8 @@ const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  const { dispatchUser, dispatchToken } = useContext(GlobalContext);
+
   const [formState, dispatchFormState] = useReducer(formReducer, {
     username: "",
     password: "",
@@ -80,10 +85,30 @@ const SignIn = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("User inputs", formState);
-    history.push("/home");
+    try {
+      const body = {
+        nic: formState.username,
+        password: formState.password,
+      };
+      const { data } = await sas.post.signin(body);
+      if (!data.success) throw new Error(data.msg);
+      await dispatchUser(
+        setUser({
+          id: data.result._id,
+          nic: data.result.nic,
+          role: data.result.role,
+        })
+      );
+      await dispatchUser(setAuth(true));
+      await dispatchToken(setTokens(data.result.signToken));
+      history.push("/home");
+    } catch (error) {
+      setErrMsg("");
+      alert("Something went wrong while sign-in");
+      console.error(error);
+    }
   };
 
   return (
@@ -103,10 +128,8 @@ const SignIn = () => {
             required
             fullWidth
             id="username"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
+            label="UserName"
+            name="username"
             value={formState.username}
             onChange={handleInput}
           />
