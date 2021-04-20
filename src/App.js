@@ -12,6 +12,8 @@ import {
   FourZeroFour,
   HomePage,
   SignInPage,
+  NewLocation,
+  PrintPage,
 } from "./pages";
 import { PrivateRoute } from "./lib/components";
 
@@ -23,6 +25,12 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             <Redirect to="/signin" />
+          </Route>
+          <Route path="/new" exact>
+            <NewLocation />
+          </Route>
+          <Route path="/qr" exact>
+            <PrintPage />
           </Route>
           <Route path="/signin" exact component={SignInPage} />
           <PrivateRoute auth={isAuthenticated} path="/home" exact>
