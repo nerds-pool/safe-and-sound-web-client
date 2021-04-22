@@ -103,6 +103,7 @@ const SignIn = () => {
       );
       await dispatchUser(setAuth(true));
       await dispatchToken(setTokens(data.result.signToken));
+      localStorage.setItem("signToken", data.result.signToken);
       history.push("/home");
     } catch (error) {
       setErrMsg("");

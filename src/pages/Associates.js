@@ -23,21 +23,22 @@ const useStyles = makeStyles((theme) => ({
 const Associates = () => {
   const classes = useStyles();
   const styles = useGlobalStyles();
-  const { id } = useParams();
-  const userData = { id, name: "Saman Kumara" };
+  const userData = useParams();
   const [dataArray, setDataArray] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await sas.get.associates(id);
+        const { data } = await sas.get.fetchVisitAssociatesByUserNic(
+          userData.id
+        );
         if (!data.success) throw new Error(data.msg);
         setDataArray(data.result);
       } catch (error) {
         alert("Something went wrong! Please check out internet connection...");
       }
     })();
-  }, [id]);
+  }, [userData]);
 
   const renderAssociatesTiles = (data) =>
     data.map((item) => (

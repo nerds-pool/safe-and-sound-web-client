@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const UserTile = ({ data }) => {
   const classes = useStyles();
-  const history = useHistory(); 
+  const history = useHistory();
 
-  const handleTraceAccociates = (id) => {
-    history.push(`/users/associates/${id}`);
+  const handleTraceAccociates = (id, name) => {
+    history.push(`/users/associates/${id}/${name}`);
   };
 
   return (
@@ -41,7 +41,7 @@ export const UserTile = ({ data }) => {
             <TableCell component="th" scope="row">
               {"NIC"}
             </TableCell>
-            <TableCell align="right">{data.id}</TableCell>
+            <TableCell align="right">{data.nic}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell component="th" scope="row">
@@ -53,13 +53,7 @@ export const UserTile = ({ data }) => {
             <TableCell component="th" scope="row">
               {"City"}
             </TableCell>
-            <TableCell align="right">{data.city}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell component="th" scope="row">
-              {"Email"}
-            </TableCell>
-            <TableCell align="right">{data.email}</TableCell>
+            <TableCell align="right">{data.address.city}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell component="th" scope="row">
@@ -78,7 +72,7 @@ export const UserTile = ({ data }) => {
       <Button
         variant="contained"
         className={classes.button}
-        onClick={() => handleTraceAccociates(data.id)}
+        onClick={() => handleTraceAccociates(data.nic, data.name)}
       >
         Trace Associates
       </Button>

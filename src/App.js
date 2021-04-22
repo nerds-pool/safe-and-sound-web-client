@@ -46,7 +46,7 @@ const App = () => {
           <PrivateRoute auth={auth} path="/users/explore" exact>
             <ExplorePage />
           </PrivateRoute>
-          <PrivateRoute auth={auth} path="/users/associates/:id">
+          <PrivateRoute auth={auth} path="/users/associates/:id/:name">
             <AssociatesPage />
           </PrivateRoute>
           <Route path="*" exact component={FourZeroFour} />

@@ -1,2 +1,2 @@
 export { setTokens } from "./token.action";
-export { setUser, setAuth, resetUser } from "./user.action";
+export { setUser, setAuth } from "./user.action";

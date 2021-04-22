@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useCallback } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import {
   Container,
   Box,
@@ -12,7 +12,7 @@ import { Clear } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalStyles } from "../lib/theme";
 import { Header, UserTile } from "../lib/components";
-import USERS from "../data/users";
+import { sas } from "../api";
 
 const STRICT_NUM_REGEX = new RegExp(/^[0-9]*$/);
 
@@ -57,13 +57,11 @@ const Explore = () => {
   const fetchUsers = useCallback(async () => {
     try {
       if (!searchStr || !STRICT_NUM_REGEX.test(searchStr)) return;
-      const usersArray = USERS.filter((user) =>
-        user.id.toString().includes(searchStr)
-      );
-      setSearchRes([...usersArray]);
-      return "got results";
+      const response = await sas.get.fetchUserByNic(searchStr);
+      if (!response.data.success) throw new Error(response.data.msg);
+      setSearchRes((prevState) => ({ ...prevState, ...response.data.result }));
     } catch (error) {
-      console.log(error);
+      alert("Oops! " + error.message);
     }
   }, [searchStr]);
 
@@ -85,10 +83,6 @@ const Explore = () => {
     setSearchRes([]);
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
-
   return (
     <Fragment>
       <Header />
@@ -100,6 +94,7 @@ const Explore = () => {
               placeholder="Enter NIC to explore users"
               value={searchStr}
               onChange={handleChange}
+              onKeyDown={fetchUsers}
             />
             <IconButton
               type="submit"

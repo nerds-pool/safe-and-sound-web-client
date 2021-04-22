@@ -1,9 +1,7 @@
 const userStore = {
-  data: {
-    id: "",
-    nic: "",
-    role: null,
-  },
+  id: null,
+  role: null,
+  nic: null,
   auth: false,
 };
 
