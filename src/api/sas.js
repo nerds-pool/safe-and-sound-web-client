@@ -21,6 +21,7 @@ export const sas = {
   post: {
     signin: (body) => http.post("/auth/signin", body),
     signup: (body) => http.post("/auth/signup", body),
+    newLocation: (body) => http.post("/location/new", body),
   },
   get: {
     fetchUserByNic: (nic) => http.get(`/user/fetch/${nic}`),

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useParams } from "react-router-dom";
 import QRCode from "qrcode.react";
 import {
   Button,
@@ -58,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const PrintPage = () => {
   const classes = useStyles();
   const qrRef = useRef();
+  const { location } = useParams();
   const locationName = "Cargils Food City";
   const city = "Kottawa";
 
@@ -79,7 +81,7 @@ const PrintPage = () => {
         <QRCode
           level="L"
           // includeMargin={true}
-          value="604d9251f72b3b48584f802b"
+          value={location}
           size={300}
           fgColor={Colors.primary}
           className={classes.qrCode}

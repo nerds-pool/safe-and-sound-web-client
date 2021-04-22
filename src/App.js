@@ -36,7 +36,7 @@ const App = () => {
           <Route path="/new" exact>
             <NewLocation />
           </Route>
-          <Route path="/print" exact>
+          <Route path="/print/:location" exact>
             <PrintPage />
           </Route>
           <Route path="/signin" exact component={SignInPage} />

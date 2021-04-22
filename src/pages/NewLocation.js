@@ -12,6 +12,8 @@ import { LocationCity } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { Colors } from "../lib/theme";
+import { sas } from "../api";
+import { Loader } from "../lib/components";
 
 const FORM_UPDATE = "FORM_UPDATE";
 
@@ -59,6 +61,7 @@ const NewLocation = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  const [loading, setLoading] = useState(false);
   const [formState, dispatchFormState] = useReducer(formReducer, {
     name: "",
     address: "",
@@ -68,8 +71,6 @@ const NewLocation = () => {
     email: "",
   });
 
-  const [errMsg, setErrMsg] = useState(null);
-
   const handleInput = (e) => {
     dispatchFormState({
       type: FORM_UPDATE,
@@ -77,11 +78,31 @@ const NewLocation = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("User inputs", formState);
-    history.push("/print");
+    try {
+      setLoading(true);
+      const body = {
+        name: formState.name,
+        address: {
+          line: formState.address,
+          city: formState.city,
+          district: formState.district,
+        },
+        contact: formState.contact,
+        email: formState.email,
+      };
+      const { data } = await sas.post.newLocation(body);
+      if (!data.success) throw new Error(data.msg);
+      history.push(`/print/${data.result._id}`);
+    } catch (error) {
+      alert("Oops! " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) return <Loader />;
 
   return (
     <Container component="main" maxWidth="md">
@@ -94,7 +115,6 @@ const NewLocation = () => {
           Add New Location
         </Typography>
         <form className={classes.form} noValidate>
-          <Typography color="error">{errMsg}</Typography>
           <TextField
             variant="outlined"
             margin="dense"
