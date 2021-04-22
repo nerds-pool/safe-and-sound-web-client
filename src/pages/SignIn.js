@@ -51,10 +51,27 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [SasData, setSasData] = useState({})
 
   const handleSubmit = () => {
     history.push("/home");
   };
+
+  useEffect(() => {
+    (async() => {
+        
+          try {
+            const response = await sas.get.data();
+            if(!response.data.success)
+              throw new Error("Cant fetch data from sas api")
+              setSasData((prevState)=>({...prevState, ...response.data.data}))
+          } catch (error) {
+            
+          }
+        }
+      
+    )()
+  }, [])
 
   return (
     <Container component="main" maxWidth="xs">

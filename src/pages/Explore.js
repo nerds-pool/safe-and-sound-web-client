@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const Explore = () => {
   const classes = useStyles();
   const styles = useGlobalStyles();
+  const [SasData, setSasData] = useState({})
 
   const renderUserTiles = (data) =>
     data.map((item) => (
@@ -55,6 +56,22 @@ const Explore = () => {
         <UserTile data={item}></UserTile>
       </Grid>
     ));
+
+    useEffect(() => {
+      (async() => {
+          
+            try {
+              const response = await sas.get.data();
+              if(!response.data.success)
+                throw new Error("Cant fetch data from sas api")
+                setSasData((prevState)=>({...prevState, ...response.data.data}))
+            } catch (error) {
+              
+            }
+          }
+        
+      )()
+    }, [])
 
   return (
     <Fragment>

@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box, Typography, Grid } from "@material-ui/core";
 import { Header, InfoBox, AssociateTile } from "../lib/components";
 import { useGlobalStyles } from "../lib/theme";
+import {sas} from "../api/sas"
 import USERS from "../data/users";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,12 +27,30 @@ const Associates = () => {
   const { id } = useParams();
   const data = { id, name: "Saman Kumara" };
 
+const [SasData, setSasData] = useState({})
+
   const renderAssociatesTiles = (data) =>
     data.map((item) => (
       <Grid item xs={12} sm={6} md={4}>
         <AssociateTile data={item}></AssociateTile>
       </Grid>
     ));
+
+  useEffect(() => {
+    (async() => {
+        
+          try {
+            const response = await sas.get.data();
+            if(!response.data.success)
+              throw new Error("Cant fetch data from sas api")
+              setSasData((prevState)=>({...prevState, ...response.data.data}))
+          } catch (error) {
+            
+          }
+        }
+      
+    )()
+  }, [])
 
   return (
     <Fragment>
