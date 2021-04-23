@@ -59,9 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const PrintPage = () => {
   const classes = useStyles();
   const qrRef = useRef();
-  const { location } = useParams();
-  const locationName = "Cargils Food City";
-  const city = "Kottawa";
+  const { location, name, city } = useParams();
 
   const handlePrint = useReactToPrint({
     content: () => qrRef.current,
@@ -90,7 +88,7 @@ const PrintPage = () => {
           <Typography
             className={classes.text}
             variant="h5"
-          >{`${locationName} @ ${city}`}</Typography>
+          >{`${name} @ ${city}`}</Typography>
           <Typography variant="body2">Powered by Nerds Pool Inc</Typography>
         </Box>
       </Box>

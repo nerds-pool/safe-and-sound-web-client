@@ -36,7 +36,7 @@ const App = () => {
           <Route path="/new" exact>
             <NewLocation />
           </Route>
-          <Route path="/print/:location" exact>
+          <Route path="/print/:location/:name/:city" exact>
             <PrintPage />
           </Route>
           <Route path="/signin" exact component={SignInPage} />
@@ -46,7 +46,10 @@ const App = () => {
           <PrivateRoute auth={auth} path="/users/explore" exact>
             <ExplorePage />
           </PrivateRoute>
-          <PrivateRoute auth={auth} path="/users/associates/:id/:name">
+          <PrivateRoute
+            auth={auth}
+            path="/users/associates/:id/:name/:contact/:gender/:city"
+          >
             <AssociatesPage />
           </PrivateRoute>
           <Route path="*" exact component={FourZeroFour} />

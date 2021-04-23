@@ -9,6 +9,7 @@ import { sas } from "../api";
 const useStyles = makeStyles((theme) => ({
   InfoBoxWrapper: {
     marginTop: theme.spacing(5),
+    width: "98vw",
   },
   mainSection: {
     width: "90vw",
@@ -35,7 +36,7 @@ const Associates = () => {
         if (!data.success) throw new Error(data.msg);
         setDataArray(data.result);
       } catch (error) {
-        alert("Something went wrong! Please check out internet connection...");
+        alert(`${userData.name} dosen't have any immediate associate yet...`);
       }
     })();
   }, [userData]);

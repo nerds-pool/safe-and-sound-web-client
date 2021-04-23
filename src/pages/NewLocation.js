@@ -94,7 +94,9 @@ const NewLocation = () => {
       };
       const { data } = await sas.post.newLocation(body);
       if (!data.success) throw new Error(data.msg);
-      history.push(`/print/${data.result._id}`);
+      history.push(
+        `/print/${data.result._id}/${body.name}/${body.address.city}`
+      );
     } catch (error) {
       alert("Oops! " + error.message);
     } finally {

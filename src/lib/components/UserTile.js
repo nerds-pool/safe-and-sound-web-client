@@ -19,17 +19,19 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: Colors.primary,
     color: Colors.white,
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     width: "100%",
   },
 }));
 
-export const UserTile = ({ data }) => {
+export const UserTile = ({ data, onDelete = null, type = "associate" }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleTraceAccociates = (id, name) => {
-    history.push(`/users/associates/${id}/${name}`);
+  const handleTraceAccociates = (id, name, contact, gender, city) => {
+    history.push(
+      `/users/associates/${id}/${name}/${contact}/${gender}/${city}`
+    );
   };
 
   return (
@@ -72,10 +74,27 @@ export const UserTile = ({ data }) => {
       <Button
         variant="contained"
         className={classes.button}
-        onClick={() => handleTraceAccociates(data.nic, data.name)}
+        onClick={() =>
+          handleTraceAccociates(
+            data.nic,
+            data.name,
+            data.contact,
+            data.gender,
+            data.address.city
+          )
+        }
       >
         Trace Associates
       </Button>
+      {type === "delete" ? (
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={(e) => onDelete(e, data.nic)}
+        >
+          Delete
+        </Button>
+      ) : null}
     </Paper>
   );
 };

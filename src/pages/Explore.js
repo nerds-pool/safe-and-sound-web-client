@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Container,
   Box,
@@ -54,23 +54,18 @@ const Explore = () => {
   const [searchStr, setSearchStr] = useState("");
   const [searchRes, setSearchRes] = useState([]);
 
-  const fetchUsers = useCallback(async () => {
-    try {
-      if (!searchStr || !STRICT_NUM_REGEX.test(searchStr)) return;
-      const response = await sas.get.fetchUserByNic(searchStr);
-      if (!response.data.success) throw new Error(response.data.msg);
-      setSearchRes((prevState) => ({ ...prevState, ...response.data.result }));
-    } catch (error) {
-      alert("Oops! " + error.message);
+  const fetchUsers = async (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      try {
+        if (!searchStr || !STRICT_NUM_REGEX.test(searchStr)) return;
+        const response = await sas.get.fetchUserByNic(searchStr);
+        if (!response.data.success) throw new Error(response.data.msg);
+        setSearchRes([response.data.result]);
+      } catch (error) {
+        alert("Can't find any user with the NIC " + searchStr);
+      }
     }
-  }, [searchStr]);
-
-  const renderUserTiles = (data) =>
-    data.map((item) => (
-      <Grid item xs={12} sm={6} md={4}>
-        <UserTile data={item}></UserTile>
-      </Grid>
-    ));
+  };
 
   const handleChange = async (e) => {
     const value = e.target.value;
@@ -82,6 +77,29 @@ const Explore = () => {
     setSearchStr("");
     setSearchRes([]);
   };
+
+  const handleDelete = async (e, nic) => {
+    e.preventDefault();
+    try {
+      const { data } = await sas.delete.user(nic);
+      if (!data.success) throw new Error(data.msg);
+      setSearchRes([]);
+    } catch (error) {
+      alert("Oops! " + error.message);
+    }
+  };
+
+  const renderUserTiles = (data) =>
+    data.map((item) => (
+      <Grid item xs={12} sm={6} md={4}>
+        <UserTile
+          key={item._id.toString()}
+          data={item}
+          onDelete={handleDelete}
+          type="delete"
+        ></UserTile>
+      </Grid>
+    ));
 
   return (
     <Fragment>
